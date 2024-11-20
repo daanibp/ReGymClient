@@ -1,16 +1,18 @@
-// public/service-worker.js
+// service-worker.js
 
-const CACHE_NAME = "today-gym-cache";
+const CACHE_NAME = "v1_cache";
 const urlsToCache = [
     "/",
     "/index.html",
-    "/favicon.ico",
-    "/static/js/main.js",
-    "/static/css/main.css",
-    // Agrega aquí otros archivos o recursos que quieras cachear
+    "/manifest.json",
+    "/icons/android-chrome-192x192.png",
+    "/icons/android-chrome-512x512.png",
+    "/icons/apple-touch-icon.png",
+    "/icons/favicon.ico",
+    // Agrega cualquier otro archivo estático que quieras almacenar en caché.
 ];
 
-// Durante la instalación del Service Worker, caché los archivos estáticos
+// Instalar el service worker
 self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
@@ -19,21 +21,7 @@ self.addEventListener("install", (event) => {
     );
 });
 
-// Durante el fetch, trato de servir los archivos desde el caché primero
-self.addEventListener("fetch", (event) => {
-    event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-            // Si se encuentra una respuesta en el caché, la devuelve
-            if (cachedResponse) {
-                return cachedResponse;
-            }
-            // Si no, la obtiene de la red
-            return fetch(event.request);
-        })
-    );
-});
-
-// Cuando el Service Worker recibe una actualización, borra los cachés antiguos
+// Activar el service worker
 self.addEventListener("activate", (event) => {
     const cacheWhitelist = [CACHE_NAME];
     event.waitUntil(
@@ -45,6 +33,18 @@ self.addEventListener("activate", (event) => {
                     }
                 })
             );
+        })
+    );
+});
+
+// Obtener contenido desde la caché o desde la red
+self.addEventListener("fetch", (event) => {
+    event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+            return fetch(event.request);
         })
     );
 });
