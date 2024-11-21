@@ -2,4 +2,5 @@ html,
 body {
     overscroll-behavior: none; /* Evita el scroll o los gestos de actualización */
     height: 100%;
+    overflow: hidden;
 }
