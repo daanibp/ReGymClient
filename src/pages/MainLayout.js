@@ -6,7 +6,7 @@ const MainLayout = ({ children }) => {
     return (
         <div className="flex flex-col h-screen justify-between bg-neutral-900 overflow-y-hidden">
             <Header />
-            <div className="flex-grow overflow-auto">{children}</div>
+            <div className="flex-grow overflow-auto pt-[64px]">{children}</div>
             <Footer />
         </div>
     );

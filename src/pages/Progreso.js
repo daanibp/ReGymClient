@@ -205,7 +205,7 @@ function Progreso() {
     };
 
     return (
-        <div className="progress overflow-hidden">
+        <div className="progress flex flex-col h-full">
             {/* Contenedor fijo */}
             <div className="top fixed w-full z-10 bg-neutral-900">
                 <div
