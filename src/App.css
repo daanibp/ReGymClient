@@ -1,8 +1,5 @@
 html,
 body {
     overflow: hidden; /* Evita el scroll global */
-}
-
-.content {
     overscroll-behavior: contain; /* Evita rebotes en contenedores */
 }
