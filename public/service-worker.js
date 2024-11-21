@@ -9,6 +9,9 @@ const urlsToCache = [
     "/icons/android-chrome-512x512.png",
     "/icons/apple-touch-icon.png",
     "/icons/favicon.ico",
+    "/icons/icon-144x144.png",
+    "/screenshot-desktop.png",
+    "/screenshot-mobile.png",
     // Agrega cualquier otro archivo estático que quieras almacenar en caché.
 ];
 
