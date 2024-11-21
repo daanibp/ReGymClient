@@ -918,7 +918,7 @@ function Diary() {
                     setIsEditable={setIsEditable}
                 />
             </div>
-            <div className="screen mt-10 flex justify-center">
+            <div className="h-full mt-10 flex justify-center">
                 {currentView === "initial" && (
                     <div
                         className="initial flex flex-col items-center justify-center space-y-4"
