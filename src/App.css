@@ -1,4 +1,5 @@
 html,
 body {
-    overflow: hidden; /* Evita el scroll global */
+    overscroll-behavior: none; /* Evita el scroll o los gestos de actualización */
+    height: 100%;
 }
