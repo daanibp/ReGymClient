@@ -223,7 +223,7 @@ function Diary() {
         const session_date = formatLocalDate(selectedDate);
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/sessions/pesas/${session_date}`,
+                `https://regymserver.onrender.com/sessions/pesas?date=${session_date}&userId=${user.id}`,
                 {
                     method: "POST",
                     headers: {
@@ -269,7 +269,7 @@ function Diary() {
         const session_date = formatLocalDate(selectedDate);
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/sessions/cardio/${session_date}`,
+                `https://regymserver.onrender.com/sessions/cardio?date=${session_date}&userId=${user.id}`,
                 {
                     method: "POST",
                     headers: {

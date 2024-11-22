@@ -65,7 +65,7 @@ function WeightExercises() {
 
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/sessions/pesas/getSessionByDate/${sessionDate}`
+                `https://regymserver.onrender.com/sessions/pesas/getSessionByDate?date=${sessionDate}&userId=${user.id}`
             );
 
             if (!response.ok) {
@@ -74,7 +74,7 @@ function WeightExercises() {
                 const session = createSession("Pesas");
                 try {
                     const response = await fetch(
-                        `https://regymserver.onrender.com/sessions/pesas/${sessionDate}`,
+                        `https://regymserver.onrender.com/sessions/pesas?date=${sessionDate}&userId=${user.id}`,
                         {
                             method: "POST",
                             headers: {
