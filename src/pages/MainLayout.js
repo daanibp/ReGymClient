@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom"; // Importamos useLocation
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const MainLayout = ({ children }) => {
     const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-    const location = useLocation(); // Usamos useLocation para obtener la ruta actual
 
     useEffect(() => {
         const handleResize = () => {
@@ -21,10 +19,6 @@ const MainLayout = ({ children }) => {
         };
     }, []);
 
-    // Verificar si la ruta actual es "/verify-email"
-    const isVerificationPage =
-        location.pathname === "/verify-email" || "/politica-de-privacidad";
-
     return (
         <div
             className="flex flex-col bg-neutral-900"
@@ -33,22 +27,18 @@ const MainLayout = ({ children }) => {
                 overflow: "hidden", // Evita el scroll global
             }}
         >
-            {/* Si no es la página de verificación, renderiza el Header */}
-            {!isVerificationPage && <Header />}
-
+            <Header />
             <div
                 className="flex-grow overflow-auto"
                 style={{
                     paddingTop: "64px",
                     paddingBottom: "64px",
-                    height: `calc(${windowHeight}px - 128px)`, // Ajusta el tamaño según el Header y Footer
+                    height: `calc(${windowHeight}px - 128px)`,
                 }}
             >
                 {children}
             </div>
-
-            {/* Si no es la página de verificación, renderiza el Footer */}
-            {!isVerificationPage && <Footer />}
+            <Footer />
         </div>
     );
 };
