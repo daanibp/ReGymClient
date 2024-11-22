@@ -3,42 +3,41 @@ import { useLocation } from "react-router-dom";
 
 function VerificatedEmail() {
     const [message, setMessage] = useState("");
+    const [status, setStatus] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
     // Obtener parámetros de la URL
     const query = new URLSearchParams(useLocation().search);
-    const status = query.get("status"); // Obtener el valor de 'status'
+    const statusFromUrl = query.get("status"); // success o error
+    const messageFromUrl = query.get("message"); // El mensaje específico
 
     useEffect(() => {
-        if (status === "success") {
-            setMessage("E-mail verificado exitosamente.");
-        } else if (status === "error") {
-            setError("Hubo un error al verificar el correo.");
+        if (statusFromUrl === "success") {
+            setMessage(decodeURIComponent(messageFromUrl));
+            setStatus("success");
+        } else if (statusFromUrl === "error") {
+            setMessage(decodeURIComponent(messageFromUrl));
+            setStatus("error");
         }
         setLoading(false);
-    }, [status]);
+    }, [statusFromUrl, messageFromUrl]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 max-w-md">
-                <h2 className="text-2xl font-bold text-center mb-6 text-green-600">
+                <h2 className="text-2xl font-bold text-center mb-6">
                     Verificación de Correo Electrónico
                 </h2>
 
-                {/* Mensaje de éxito o error */}
                 {loading ? (
                     <p className="text-gray-500 text-center mb-4">
                         Verificando...
                     </p>
-                ) : message ? (
+                ) : status === "success" ? (
                     <p className="text-green-500 text-center mb-4">{message}</p>
-                ) : error ? (
-                    <p className="text-red-500 text-center mb-4">{error}</p>
                 ) : (
-                    <p className="text-gray-500 text-center mb-4">
-                        Cargando...
-                    </p>
+                    <p className="text-red-500 text-center mb-4">{message}</p>
                 )}
 
                 {/* Botón para regresar a la página principal */}
