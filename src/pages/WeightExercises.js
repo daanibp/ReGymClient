@@ -240,6 +240,7 @@ function WeightExercises() {
                                                     src={`/images/exercises/${exercise.image}`}
                                                     alt={exercise.name}
                                                     className="w-28 h-28 object-cover mb-2 cursor-pointer"
+                                                    loading="lazy"
                                                     onClick={() =>
                                                         addExercise(
                                                             exercise,
