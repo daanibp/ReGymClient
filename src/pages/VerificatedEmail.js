@@ -6,41 +6,18 @@ function VerificatedEmail() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
-    // Obtiene el token de la URL
+    // Obtener parámetros de la URL
     const query = new URLSearchParams(useLocation().search);
-    const token = query.get("token");
+    const status = query.get("status"); // Obtener el valor de 'status'
 
     useEffect(() => {
-        const verifyEmail = async () => {
-            if (!token) {
-                setError("Falta el token en la URL.");
-                setLoading(false);
-                return;
-            }
-
-            try {
-                const response = await fetch(
-                    `https://regymserver.onrender.com/users/verify-email?token=${token}`,
-                    { method: "GET" }
-                );
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    setMessage("E-mail verificado exitosamente.");
-                } else {
-                    setError(
-                        data.error || "Hubo un problema al verificar el correo."
-                    );
-                }
-            } catch (error) {
-                setError("Error en la solicitud de verificación.");
-            }
-            setLoading(false);
-        };
-
-        verifyEmail();
-    }, [token]);
+        if (status === "success") {
+            setMessage("E-mail verificado exitosamente.");
+        } else if (status === "error") {
+            setError("Hubo un error al verificar el correo.");
+        }
+        setLoading(false);
+    }, [status]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
