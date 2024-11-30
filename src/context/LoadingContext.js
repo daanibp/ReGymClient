@@ -1,22 +1,50 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-// Crear el contexto de carga
 const LoadingContext = createContext();
 
-// Hook para acceder al contexto
-export const useLoading = () => useContext(LoadingContext);
-
-// Proveedor de contexto para el estado de carga
 export const LoadingProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
+    const [serverAvailable, setServerAvailable] = useState(false);
 
-    // Funciones para manejar el estado de carga
     const showLoading = () => setLoading(true);
     const hideLoading = () => setLoading(false);
 
+    const checkServer = async () => {
+        try {
+            const response = await fetch(
+                `${process.env.REACT_APP_SERVER_URL}/healthcheck`
+            );
+            if (response.ok) {
+                setServerAvailable(true);
+            } else {
+                throw new Error("Server not OK");
+            }
+        } catch (error) {
+            console.error("Server not reachable:", error);
+            setServerAvailable(false);
+        }
+    };
+
+    // Check server availability on mount
+    useEffect(() => {
+        showLoading();
+        const interval = setInterval(async () => {
+            await checkServer();
+        }, 1000); // Check server every second
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        if (serverAvailable) hideLoading();
+    }, [serverAvailable]);
+
     return (
-        <LoadingContext.Provider value={{ loading, showLoading, hideLoading }}>
+        <LoadingContext.Provider
+            value={{ loading, showLoading, hideLoading, serverAvailable }}
+        >
             {children}
         </LoadingContext.Provider>
     );
 };
+
+export const useLoading = () => useContext(LoadingContext);
