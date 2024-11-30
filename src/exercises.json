@@ -169,44 +169,86 @@
     },
     {
         "id": 39,
+        "name": "Remo Gironda Unilateral",
+        "image": "RemoGirondaCerrado.png",
+        "category": "Espalda"
+    },
+    {
+        "id": 40,
         "name": "Pullover Polea",
         "image": "PulloverPolea.png",
         "category": "Espalda"
     },
     {
-        "id": 40,
+        "id": 41,
         "name": "Pullover Mancuerna",
         "image": "PulloverMancuerna.png",
         "category": "Espalda"
     },
     {
-        "id": 41,
+        "id": 42,
         "name": "Pullover Máquina",
         "image": "PulloverMáquina.png",
         "category": "Espalda"
     },
     {
-        "id": 42,
+        "id": 43,
         "name": "Peso Muerto Barra",
         "image": "PesoMuertoBarra.png",
         "category": "Espalda"
     },
     {
-        "id": 43,
+        "id": 44,
         "name": "Peso Muerto Mancuernas",
         "image": "PesoMuertoMancuernas.png",
         "category": "Espalda"
     },
     {
-        "id": 44,
+        "id": 45,
         "name": "Remo con Mancuernas",
         "image": "RemoConMancuernas.png",
         "category": "Espalda"
     },
     {
-        "id": 45,
+        "id": 46,
         "name": "Hiperextensiones",
         "image": "Hiperextensiones.png",
+        "category": "Espalda"
+    },
+    {
+        "id": 47,
+        "name": "Remo en Máquina",
+        "image": "RemoEnMáquina.png",
+        "category": "Espalda"
+    },
+    {
+        "id": 48,
+        "name": "Remo Unilateral en Máquina",
+        "image": "RemoEnMáquina.png",
+        "category": "Espalda"
+    },
+    {
+        "id": 49,
+        "name": "Remo Alto en Máquina",
+        "image": "RemoEnMáquina.png",
+        "category": "Espalda"
+    },
+    {
+        "id": 50,
+        "name": "Remo Alto Unilateral en Máquina",
+        "image": "RemoEnMáquina.png",
+        "category": "Espalda"
+    },
+    {
+        "id": 51,
+        "name": "Remo Unilateral en Polea",
+        "image": "RemoUnilateralEnPolea.png",
+        "category": "Espalda"
+    },
+    {
+        "id": 52,
+        "name": "Jalón Unilateral",
+        "image": "JalónUnilateral.png",
         "category": "Espalda"
     },
     {
@@ -385,64 +427,71 @@
     },
     {
         "id": 96,
+        "name": "Press Militar Smith",
+        "image": "PressMilitarSmith.png",
+        "category": "Hombro"
+    },
+    {
+        "id": 97,
         "name": "Elevaciones Laterales",
         "image": "ElevacionesLaterales.png",
         "category": "Hombro"
     },
     {
-        "id": 97,
+        "id": 98,
         "name": "Elevaciones Laterales Sentado",
         "image": "ElevacionesLateralesSentado.png",
         "category": "Hombro"
     },
     {
-        "id": 98,
+        "id": 99,
         "name": "Elevaciones Laterales Polea",
         "image": "ElevacionesLateralesPolea.png",
         "category": "Hombro"
     },
     {
-        "id": 99,
+        "id": 100,
         "name": "Elevaciones Laterales Máquina 1",
         "image": "ElevacionesLateralesMáquina1.png",
         "category": "Hombro"
     },
     {
-        "id": 100,
+        "id": 101,
         "name": "Elevaciones Laterales Máquina 2",
         "image": "ElevacionesLateralesMáquina2.png",
         "category": "Hombro"
     },
     {
-        "id": 101,
+        "id": 102,
         "name": "Rear Delt Fly",
         "image": "RearDeltFly.png",
         "category": "Hombro"
     },
     {
-        "id": 102,
+        "id": 103,
         "name": "Pájaros Mancuernas",
         "image": "PájarosMancuernas.png",
         "category": "Hombro"
     },
     {
-        "id": 103,
+        "id": 104,
         "name": "Pájaros Polea",
         "image": "PájarosPolea.png",
         "category": "Hombro"
     },
     {
-        "id": 104,
+        "id": 105,
         "name": "Pájaros Polea Unilateral",
         "image": "PájarosPoleaUnilateral.png",
         "category": "Hombro"
     },
     {
-        "id": 105,
+        "id": 106,
         "name": "Face Pull",
         "image": "FacePull.png",
         "category": "Hombro"
     },
+
     {
         "id": 120,
         "name": "Extensión Tríceps Cuerda",
