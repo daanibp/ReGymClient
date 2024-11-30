@@ -22,7 +22,7 @@ function ForgotPassword() {
 
         try {
             const response = await fetch(
-                "https://regymserver.onrender.com/users/forgot-password",
+                `${process.env.REACT_APP_SERVER_URL}/users/forgot-password`,
                 {
                     method: "POST",
                     headers: {

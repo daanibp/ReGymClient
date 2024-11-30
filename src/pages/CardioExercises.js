@@ -43,14 +43,14 @@ function CardioExercises() {
 
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/sessions/cardio/getSessionByDate?date=${sessionDate}&userId=${user.id}`
+                `${process.env.REACT_APP_SERVER_URL}/sessions/cardio/getSessionByDate?date=${sessionDate}&userId=${user.id}`
             );
 
             if (!response.ok) {
                 const session = createSession("Cardio");
                 try {
                     const response = await fetch(
-                        `https://regymserver.onrender.com/sessions/cardio?date=${sessionDate}&userId=${user.id}`,
+                        `${process.env.REACT_APP_SERVER_URL}/sessions/cardio?date=${sessionDate}&userId=${user.id}`,
                         {
                             method: "POST",
                             headers: {
@@ -78,7 +78,7 @@ function CardioExercises() {
         const newExercise = createExercise(idSession, exercise.name, image);
 
         const response = await fetch(
-            "https://regymserver.onrender.com/exercises",
+            `${process.env.REACT_APP_SERVER_URL}/exercises`,
             {
                 method: "POST",
                 headers: {

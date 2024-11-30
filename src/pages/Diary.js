@@ -57,7 +57,7 @@ function Diary() {
             try {
                 const sessionDate = formatLocalDate(date);
                 const response = await fetch(
-                    `https://regymserver.onrender.com/sessions/pesas/getSessionByDate?date=${sessionDate}&userId=${user.id}`
+                    `${process.env.REACT_APP_SERVER_URL}/sessions/pesas/getSessionByDate?date=${sessionDate}&userId=${user.id}`
                 );
                 const data = await response.json();
 
@@ -78,7 +78,7 @@ function Diary() {
             try {
                 const sessionDate = formatLocalDate(date);
                 const response = await fetch(
-                    `https://regymserver.onrender.com/sessions/cardio/getSessionByDate?date=${sessionDate}&userId=${user.id}`
+                    `${process.env.REACT_APP_SERVER_URL}/sessions/cardio/getSessionByDate?date=${sessionDate}&userId=${user.id}`
                 );
                 const data = await response.json();
 
@@ -120,7 +120,7 @@ function Diary() {
 
         try {
             const responseExercises = await fetch(
-                `https://regymserver.onrender.com/exercises/getExerciseBySessionId/${sessionIdPesas}`
+                `${process.env.REACT_APP_SERVER_URL}/exercises/getExerciseBySessionId/${sessionIdPesas}`
             );
             const exercisesData = await responseExercises.json();
 
@@ -131,7 +131,7 @@ function Diary() {
             }
 
             const responseSets = await fetch(
-                `https://regymserver.onrender.com/sets/getSetBySessionId/${sessionIdPesas}`
+                `${process.env.REACT_APP_SERVER_URL}/sets/getSetBySessionId/${sessionIdPesas}`
             );
             const setsData = await responseSets.json();
 
@@ -154,7 +154,7 @@ function Diary() {
 
         try {
             const responseExercises = await fetch(
-                `https://regymserver.onrender.com/exercises/getExerciseBySessionId/${sessionIdCardio}`
+                `${process.env.REACT_APP_SERVER_URL}/exercises/getExerciseBySessionId/${sessionIdCardio}`
             );
             const exercisesData = await responseExercises.json();
 
@@ -165,7 +165,7 @@ function Diary() {
             }
 
             const responseIntervals = await fetch(
-                `https://regymserver.onrender.com/intervals/getIntervalBySessionId/${sessionIdCardio}`
+                `${process.env.REACT_APP_SERVER_URL}/intervals/getIntervalBySessionId/${sessionIdCardio}`
             );
             const intervalsData = await responseIntervals.json();
 
@@ -200,7 +200,7 @@ function Diary() {
         const session_date = formatLocalDate(selectedDate);
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/sessions/pesas?date=${session_date}&userId=${user.id}`,
+                `${process.env.REACT_APP_SERVER_URL}/sessions/pesas?date=${session_date}&userId=${user.id}`,
                 {
                     method: "POST",
                     headers: {
@@ -236,7 +236,7 @@ function Diary() {
         const session_date = formatLocalDate(selectedDate);
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/sessions/cardio?date=${session_date}&userId=${user.id}`,
+                `${process.env.REACT_APP_SERVER_URL}/sessions/cardio?date=${session_date}&userId=${user.id}`,
                 {
                     method: "POST",
                     headers: {
@@ -289,13 +289,16 @@ function Diary() {
 
     const addSet = async (exercise_id) => {
         const newSet = await createSet(exercise_id);
-        const response = await fetch("https://regymserver.onrender.com/sets", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newSet),
-        });
+        const response = await fetch(
+            `${process.env.REACT_APP_SERVER_URL}/sets`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newSet),
+            }
+        );
 
         if (response.ok) {
             const addedSet = await response.json();
@@ -372,7 +375,7 @@ function Diary() {
             // Llamar a la API para actualizar el set
             try {
                 const response = await fetch(
-                    `https://regymserver.onrender.com/sets/updateSets/${setId}`,
+                    `${process.env.REACT_APP_SERVER_URL}/sets/updateSets/${setId}`,
                     {
                         method: "PUT",
                         headers: {
@@ -391,7 +394,7 @@ function Diary() {
                     const updatedSet = await response.json();
                     // Actualizamos el lastValue del siguiente set
                     await fetch(
-                        `https://regymserver.onrender.com/sets/updateLastValueForNextSet`,
+                        `${process.env.REACT_APP_SERVER_URL}/sets/updateLastValueForNextSet`,
                         {
                             method: "PUT",
                             headers: {
@@ -423,7 +426,7 @@ function Diary() {
     const addInterval = async (exercise_id) => {
         const newInterval = await createInterval(exercise_id);
         const response = await fetch(
-            "https://regymserver.onrender.com/intervals",
+            `${process.env.REACT_APP_SERVER_URL}/intervals`,
             {
                 method: "POST",
                 headers: {
@@ -515,7 +518,7 @@ function Diary() {
             // Llamar a la API para actualizar el set
             try {
                 const response = await fetch(
-                    `https://regymserver.onrender.com/intervals/updateInterval/${intervalId}`,
+                    `${process.env.REACT_APP_SERVER_URL}/intervals/updateInterval/${intervalId}`,
                     {
                         method: "PUT",
                         headers: {
@@ -534,7 +537,7 @@ function Diary() {
                     const updatedInterval = await response.json();
                     // Actualizamos el lastValue del siguiente interval
                     await fetch(
-                        `https://regymserver.onrender.com/intervals/updateLastValueForNextInterval`,
+                        `${process.env.REACT_APP_SERVER_URL}/intervals/updateLastValueForNextInterval`,
                         {
                             method: "PUT",
                             headers: {
@@ -587,7 +590,7 @@ function Diary() {
 
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/exercises/deleteById/${exerciseId}?userId=${user.id}&selectedDate=${formattedDate}`,
+                `${process.env.REACT_APP_SERVER_URL}/exercises/deleteById/${exerciseId}?userId=${user.id}&selectedDate=${formattedDate}`,
                 {
                     method: "DELETE",
                     headers: {
@@ -647,7 +650,7 @@ function Diary() {
         try {
             // Actualizamos los valores de los sets de la misma instancia de ejercicio
             await fetch(
-                `https://regymserver.onrender.com/sets/updateSetsFromSameExerciseId/${setToDelete.id}`,
+                `${process.env.REACT_APP_SERVER_URL}/sets/updateSetsFromSameExerciseId/${setToDelete.id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -664,7 +667,7 @@ function Diary() {
 
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/sets/deleteById/${setId}`,
+                `${process.env.REACT_APP_SERVER_URL}/sets/deleteById/${setId}`,
                 {
                     method: "DELETE",
                 }
@@ -684,7 +687,7 @@ function Diary() {
         try {
             // Actualizamos los lastValues de los sets de la siguiente instancia de ejercicio
             const response2 = await fetch(
-                `https://regymserver.onrender.com/sets/updateLastValuesForNextExercise`,
+                `${process.env.REACT_APP_SERVER_URL}/sets/updateLastValuesForNextExercise`,
                 {
                     method: "PUT",
                     headers: {
@@ -718,7 +721,7 @@ function Diary() {
         try {
             // Actualizamos los valores de los intervals de la misma instancia de ejercicio
             await fetch(
-                `https://regymserver.onrender.com/intervals/updateIntervalsFromSameExerciseId/${intervalToDelete.id}`,
+                `${process.env.REACT_APP_SERVER_URL}/intervals/updateIntervalsFromSameExerciseId/${intervalToDelete.id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -735,7 +738,7 @@ function Diary() {
 
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/intervals/deleteById/${intervalId}`,
+                `${process.env.REACT_APP_SERVER_URL}/intervals/deleteById/${intervalId}`,
                 {
                     method: "DELETE",
                 }
@@ -757,7 +760,7 @@ function Diary() {
         try {
             // Actualizamos los lastValues de los intervals de la siguiente instancia de ejercicio
             const response2 = await fetch(
-                `https://regymserver.onrender.com/intervals/updateLastValuesForNextExercise`,
+                `${process.env.REACT_APP_SERVER_URL}/intervals/updateLastValuesForNextExercise`,
                 {
                     method: "PUT",
                     headers: {
@@ -787,7 +790,7 @@ function Diary() {
         try {
             const formattedDate = formatLocalDate(selectedDate);
             const response = await fetch(
-                `https://regymserver.onrender.com/sets/getLastValue?userId=${userId}&exerciseId=${exerciseId}&setNumber=${setNumber}&selectedDate=${formattedDate}`
+                `${process.env.REACT_APP_SERVER_URL}/sets/getLastValue?userId=${userId}&exerciseId=${exerciseId}&setNumber=${setNumber}&selectedDate=${formattedDate}`
             );
 
             if (response.ok) {
@@ -810,7 +813,7 @@ function Diary() {
         try {
             const formattedDate = formatLocalDate(selectedDate);
             const response = await fetch(
-                `https://regymserver.onrender.com/intervals/getLastValue?userId=${userId}&exerciseId=${exerciseId}&intervalNumber=${intervalNumber}&selectedDate=${formattedDate}`
+                `${process.env.REACT_APP_SERVER_URL}/intervals/getLastValue?userId=${userId}&exerciseId=${exerciseId}&intervalNumber=${intervalNumber}&selectedDate=${formattedDate}`
             );
 
             if (response.ok) {
@@ -844,7 +847,7 @@ function Diary() {
         try {
             // Llamada a la API para guardar las notas en la base de datos o servidor
             const response = await fetch(
-                `https://regymserver.onrender.com/exercises/${exerciseId}/notes`,
+                `${process.env.REACT_APP_SERVER_URL}/exercises/${exerciseId}/notes`,
                 {
                     method: "PUT",
                     headers: {

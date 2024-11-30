@@ -138,12 +138,12 @@ function Semanas() {
 
                 // Llamada a la API con parámetros dinámicos
                 const response = await fetch(
-                    `https://regymserver.onrender.com/sessions/week?start=${start}&end=${endDateString}&userId=${user.id}`
+                    `${process.env.REACT_APP_SERVER_URL}/sessions/week?start=${start}&end=${endDateString}&userId=${user.id}`
                 );
 
                 const data = await response.json();
 
-                setSessionDays(Array.isArray(data) ? data : []);  // Ensure it's an array
+                setSessionDays(Array.isArray(data) ? data : []); // Ensure it's an array
             } catch (error) {
                 console.error("Error fetching session days:", error);
             }
@@ -159,7 +159,7 @@ function Semanas() {
 
                 // Llamada a la API con parámetros dinámicos
                 const response = await fetch(
-                    `https://regymserver.onrender.com/sessions/week/getNumberOfSetsByCategory?start=${start}&end=${endDateString}&userId=${user.id}`
+                    `${process.env.REACT_APP_SERVER_URL}/sessions/week/getNumberOfSetsByCategory?start=${start}&end=${endDateString}&userId=${user.id}`
                 );
                 if (response.ok) {
                     const data = await response.json();

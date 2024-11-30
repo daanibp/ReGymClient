@@ -17,7 +17,7 @@ function FavExercises() {
     useEffect(() => {
         const getExercises = async () => {
             const response = await fetch(
-                `https://regymserver.onrender.com/exercises/getAllExercisesById?userId=${user.id}&type=${type}`
+                `${process.env.REACT_APP_SERVER_URL}/exercises/getAllExercisesById?userId=${user.id}&type=${type}`
             );
             const data = await response.json();
             setExercises(data.exercises || []); // Evitar que sea undefined
@@ -65,7 +65,7 @@ function FavExercises() {
         try {
             // Update on server
             await fetch(
-                `https://regymserver.onrender.com/exercises/${exercise.id}/fav`,
+                `${process.env.REACT_APP_SERVER_URL}/exercises/${exercise.id}/fav`,
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },

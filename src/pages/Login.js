@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import backgroundImage from "../images/BG2.jpg";
 import "../estilos/Login.css";
 import { FaSpinner } from "react-icons/fa";
+import { SessionContext } from "../context/SessionContext";
 
 function Login({ onLogin }) {
     const [email, setEmail] = useState("");
@@ -26,6 +27,8 @@ function Login({ onLogin }) {
             ? "register"
             : "login"
     );
+
+    const { selectedDate, updateSelectedDate } = useContext(SessionContext);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -52,7 +55,7 @@ function Login({ onLogin }) {
         try {
             // Enviar los datos al servidor
             const response = await fetch(
-                "https://regymserver.onrender.com/users/login",
+                `${process.env.REACT_APP_SERVER_URL}/users/login`,
                 {
                     method: "POST",
                     headers: {
@@ -74,6 +77,10 @@ function Login({ onLogin }) {
 
                 // Guardar el token y el usuario en el AuthContext
                 onLogin(user, token);
+
+                // Selected Date a hoy
+                updateSelectedDate(new Date());
+
                 // Redirigir al usuario a la página principal o dashboard
                 navigate("/dashboard");
             } else {
@@ -123,7 +130,7 @@ function Login({ onLogin }) {
         try {
             // Enviar los datos al servidor
             const response = await fetch(
-                "https://regymserver.onrender.com/users/register",
+                `${process.env.REACT_APP_SERVER_URL}/users/register`,
                 {
                     method: "POST",
                     headers: {
@@ -348,11 +355,11 @@ function Login({ onLogin }) {
                                 />
                             </div>
                             <div className="mb-6 text-left">
-                                <label className="inline-flex items-start">
+                                <label className="inline-flex items-center">
                                     <input
                                         type="checkbox"
                                         id="acceptTerms"
-                                        className="mr-2 mt-1"
+                                        className="mr-2 items-center text-center"
                                         checked={acceptTerms}
                                         onChange={(e) =>
                                             setAcceptTerms(e.target.checked)

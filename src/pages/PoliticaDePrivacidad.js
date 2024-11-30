@@ -1,8 +1,12 @@
 import React from "react";
 
-function PoliticaDePrivacidad() {
+function PoliticaDePrivacidad({ isLoggedIn }) {
     return (
-        <div className="p-6 md:p-12 bg-gray-100 text-gray-800 pb-[100px]">
+        <div
+            className={`p-6 md:p-12 bg-gray-100 text-gray-800 pb-[100px] ${
+                !isLoggedIn ? "h-screen overflow-auto" : ""
+            }`}
+        >
             <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
                 <h1 className="text-3xl font-bold text-center mb-6">
                     Política de Privacidad

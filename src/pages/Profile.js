@@ -42,7 +42,7 @@ function Profile({ onLogout }) {
 
         try {
             const response = await fetch(
-                `https://regymserver.onrender.com/users/updateUserById/${user.id}`,
+                `${process.env.REACT_APP_SERVER_URL}/users/updateUserById/${user.id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -73,7 +73,7 @@ function Profile({ onLogout }) {
         if (confirmDelete) {
             try {
                 const response = await fetch(
-                    `https://regymserver.onrender.com/users/deleteUserById/${user.id}`,
+                    `${process.env.REACT_APP_SERVER_URL}/users/deleteUserById/${user.id}`,
                     {
                         method: "DELETE",
                     }

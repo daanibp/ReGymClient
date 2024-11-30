@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
     BrowserRouter as Router,
     Route,
@@ -17,6 +17,7 @@ import { AuthProvider, AuthContext } from "./context/AuthContext";
 import WeightExercises from "./pages/WeightExercises";
 import CardioExercises from "./pages/CardioExercises";
 import { SessionProvider } from "./context/SessionContext";
+import { LoadingProvider, useLoading } from "./context/LoadingContext";
 import Progreso from "./pages/Progreso";
 import FavExercises from "./pages/FavExercises";
 import ExerciseHistory from "./pages/ExerciseHistory";
@@ -26,19 +27,37 @@ import VerificatedEmail from "./pages/VerificatedEmail";
 
 function App() {
     return (
-        <AuthProvider>
-            <SessionProvider>
-                <Router>
-                    <AuthRoutes />
-                </Router>
-            </SessionProvider>
-        </AuthProvider>
+        <LoadingProvider>
+            <AuthProvider>
+                <SessionProvider>
+                    <Router>
+                        <AuthRoutes />
+                    </Router>
+                </SessionProvider>
+            </AuthProvider>
+        </LoadingProvider>
     );
 }
 
 // Separa las rutas en un componente basado en el estado de autenticación
 function AuthRoutes() {
-    const { token, login, logout, loading } = useContext(AuthContext);
+    const {
+        token,
+        login,
+        logout,
+        loading: authLoading,
+    } = useContext(AuthContext);
+    const { loading, showLoading, hideLoading } = useLoading();
+
+    // Mostrar un estado de carga mientras verificamos si el usuario está autenticado
+    useEffect(() => {
+        // Mostramos el estado de carga cuando la autenticación está en proceso
+        if (authLoading) {
+            showLoading();
+        } else {
+            hideLoading();
+        }
+    }, [authLoading, showLoading, hideLoading]);
 
     // Mostrar un estado de carga mientras verificamos si el usuario está autenticado
     if (loading) {
@@ -58,7 +77,7 @@ function AuthRoutes() {
                     />
                     <Route
                         path="/politica-de-privacidad"
-                        element={<PoliticaDePrivacidad />}
+                        element={<PoliticaDePrivacidad isLoggedIn={false} />}
                     />
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route
@@ -100,7 +119,7 @@ function AuthRoutes() {
                         />
                         <Route
                             path="/politica-de-privacidad"
-                            element={<PoliticaDePrivacidad />}
+                            element={<PoliticaDePrivacidad isLoggedIn={true} />}
                         />
                         <Route
                             path="*"
