@@ -7,7 +7,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); // Estado para almacenar el usuario
     const [token, setToken] = useState(null); // Estado para almacenar el token
-    const [loading, setLoading] = useState(true); // Estado de carga
+    //const [loading, setLoading] = useState(true); // Estado de carga
 
     useEffect(() => {
         // Al montar el componente, obtenemos el token almacenado
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-        setLoading(false);
+        //setLoading(false);
     }, []);
 
     // Función para manejar el login y guardar el usuario
@@ -40,7 +40,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, loading }}>
+        <AuthContext.Provider
+            value={{ user, token, login, logout /*, loading*/ }}
+        >
             {children}
         </AuthContext.Provider>
     );

@@ -45,9 +45,10 @@ function AuthRoutes() {
         token,
         login,
         logout,
-        loading: authLoading,
+        //loading: authLoading,
     } = useContext(AuthContext);
-    const { loading, serverAvailable, showLoading, hideLoading } = useLoading();
+
+    const { serverAvailable, showLoading, hideLoading } = useLoading();
 
     useEffect(() => {
         // Mostrar cargando cuando el usuario está logueado y el servidor no está disponible

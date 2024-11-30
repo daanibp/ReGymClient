@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const LoadingContext = createContext();
 
 export const LoadingProvider = ({ children }) => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [serverAvailable, setServerAvailable] = useState(false);
 
     const showLoading = () => setLoading(true);
@@ -25,18 +25,17 @@ export const LoadingProvider = ({ children }) => {
         }
     };
 
-    // Check server availability on mount
+    // Check server availability on mount and periodically
     useEffect(() => {
-        showLoading();
-        const interval = setInterval(async () => {
+        const performCheck = async () => {
             await checkServer();
-        }, 1000); // Check server every second
+            setLoading(false);
+        };
+
+        performCheck();
+        const interval = setInterval(checkServer, 3000);
         return () => clearInterval(interval);
     }, []);
-
-    useEffect(() => {
-        if (serverAvailable) hideLoading();
-    }, [serverAvailable]);
 
     return (
         <LoadingContext.Provider
