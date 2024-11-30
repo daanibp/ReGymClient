@@ -47,21 +47,24 @@ function AuthRoutes() {
         logout,
         loading: authLoading,
     } = useContext(AuthContext);
-    const { loading, showLoading, hideLoading } = useLoading();
+    const { loading, serverAvailable, showLoading, hideLoading } = useLoading();
 
-    // Mostrar un estado de carga mientras verificamos si el usuario está autenticado
     useEffect(() => {
-        // Mostramos el estado de carga cuando la autenticación está en proceso
-        if (authLoading) {
+        // Mostrar cargando cuando el usuario está logueado y el servidor no está disponible
+        if (token && !serverAvailable) {
             showLoading();
         } else {
             hideLoading();
         }
-    }, [authLoading, showLoading, hideLoading]);
+    }, [token, serverAvailable, showLoading, hideLoading]);
 
-    // Mostrar un estado de carga mientras verificamos si el usuario está autenticado
-    if (loading) {
-        return <div>Cargando...</div>;
+    // Mostrar "Cargando..." solo si el usuario está logueado y el servidor no está disponible
+    if (token && !serverAvailable) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-200">
+                <h1>El servidor está arrancando, por favor espera...</h1>
+            </div>
+        );
     }
 
     return (
