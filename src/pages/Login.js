@@ -28,7 +28,7 @@ function Login({ onLogin }) {
             : "login"
     );
 
-    const { selectedDate, updateSelectedDate } = useContext(SessionContext);
+    const { updateSelectedDate } = useContext(SessionContext);
 
     const handleLogin = async (e) => {
         e.preventDefault();

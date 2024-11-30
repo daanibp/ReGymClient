@@ -24,6 +24,7 @@ import ExerciseHistory from "./pages/ExerciseHistory";
 import "./App.css";
 import PoliticaDePrivacidad from "./pages/PoliticaDePrivacidad";
 import VerificatedEmail from "./pages/VerificatedEmail";
+import LoadingServer from "./components/LoadingServer";
 
 function App() {
     return (
@@ -61,11 +62,7 @@ function AuthRoutes() {
 
     // Mostrar "Cargando..." solo si el usuario está logueado y el servidor no está disponible
     if (token && !serverAvailable) {
-        return (
-            <div className="flex items-center justify-center h-screen bg-gray-200">
-                <h1>El servidor está arrancando, por favor espera...</h1>
-            </div>
-        );
+        return <LoadingServer />;
     }
 
     return (
