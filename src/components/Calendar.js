@@ -36,9 +36,13 @@ function CustomCalendar({ daysWithSession }) {
     const months = [];
     let monthDate = new Date(registerDate); // Iniciar con la fecha de registro
 
-    // Asegurarse de agregar solo el primer día de cada mes
-    while (monthDate <= currentDate) {
-        months.push(new Date(monthDate.getFullYear(), monthDate.getMonth(), 1)); // Asegurarse de que solo el primer día del mes se añada
+    // Comparar solo el año y el mes
+    while (
+        monthDate.getFullYear() < currentDate.getFullYear() ||
+        (monthDate.getFullYear() === currentDate.getFullYear() &&
+            monthDate.getMonth() <= currentDate.getMonth())
+    ) {
+        months.push(new Date(monthDate.getFullYear(), monthDate.getMonth(), 1)); // Agregar solo el primer día del mes
         monthDate.setMonth(monthDate.getMonth() + 1); // Avanzar al siguiente mes
     }
 
@@ -56,8 +60,6 @@ function CustomCalendar({ daysWithSession }) {
 
     // Determinar el índice del mes actual
     const currentMonthIndex = currentDate.getMonth();
-
-    //setDate(new Date(currentDate.getFullYear(), currentMonthIndex, 1));
 
     // Función para actualizar la fecha según el slide
     const handleSlideChange = (swiper) => {

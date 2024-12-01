@@ -141,6 +141,7 @@ function Progreso() {
                 );
                 const data = await response.json();
                 setExercisesCardioFav(data.exercisesFav);
+                console.log(data.exercisesFav);
                 exercisesCardioF = data.exercisesFav;
                 setMaxNumberOfIntervals(data.max);
             };
@@ -271,7 +272,7 @@ function Progreso() {
                                         className="h-full"
                                     >
                                         <SwiperSlide className="h-full">
-                                            <div className="p-4 text-white rounded-lg h-full">
+                                            <div className="p-4 text-white rounded-lg h-full flex flex-col">
                                                 <div className="flex mb-2 text-lg">
                                                     <p className="font-bold mr-4">
                                                         {exercise.exercise_name}
@@ -289,10 +290,7 @@ function Progreso() {
                                                     </button>
                                                 </div>
 
-                                                <div
-                                                    className="grafico"
-                                                    style={{ height: "80%" }}
-                                                >
+                                                <div className="grafico flex-grow pb-4">
                                                     {(() => {
                                                         const filteredData =
                                                             allMaxWeightLifted.filter(
@@ -558,7 +556,7 @@ function Progreso() {
                                         className="h-full"
                                     >
                                         <SwiperSlide className="h-full">
-                                            <div className="p-4 text-white rounded-lg h-full">
+                                            <div className="p-4 text-white rounded-lg h-full flex flex-col">
                                                 <div className="flex mb-2 text-lg">
                                                     <p className="font-bold mr-4">
                                                         {exercise.exercise_name}
@@ -575,10 +573,7 @@ function Progreso() {
                                                         Historial
                                                     </button>
                                                 </div>
-                                                <div
-                                                    className="grafico"
-                                                    style={{ height: "80%" }}
-                                                >
+                                                <div className="grafico flex-grow pb-4">
                                                     {(() => {
                                                         const filteredData =
                                                             allMaxDistance.filter(
@@ -685,10 +680,10 @@ function Progreso() {
                                                     <table className="table-auto w-full text-sm text-left text-gray-300 border mt-1 mb-5">
                                                         <thead className="font-semibold border-b">
                                                             <tr>
-                                                                <th className="px-4 py-2 border-r">
+                                                                <th className="px-4 py-2 border-r w-1/2">
                                                                     Tipo
                                                                 </th>
-                                                                <th className="px-4 py-2">
+                                                                <th className="px-4 py-2 w-1/2">
                                                                     Valor
                                                                 </th>
                                                             </tr>
@@ -757,9 +752,9 @@ function Progreso() {
 
                                                                                         :
                                                                                         <span className="mx-2">
-                                                                                            {
-                                                                                                set.best_volume
-                                                                                            }{" "}
+                                                                                            {set.best_volume.toFixed(
+                                                                                                2
+                                                                                            )}{" "}
                                                                                             km
                                                                                             /
                                                                                             h

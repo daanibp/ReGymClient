@@ -144,7 +144,7 @@ function WeightExercises() {
             end_time: end_time,
             duration: duration,
             notes: notes,
-            fav: 0,
+            //fav: 0,
         };
 
         return exercise;
