@@ -28,6 +28,13 @@ function Diary() {
     const [isPesasDisabled, setIsPesasDisabled] = useState(false);
     const [isCardioDisabled, setIsCardioDisabled] = useState(false);
 
+    const [isAddingSet, setIsAddingSet] = useState(false);
+    const [isAddingInterval, setIsAddingInterval] = useState(false);
+
+    const [deletingExerciseId, setDeletingExerciseId] = useState(null);
+    const [deletingSetId, setDeletingSetId] = useState(null);
+    const [deletingIntervalId, setDeletingIntervalId] = useState(null);
+
     const {
         selectedDate,
         sessionIdPesas,
@@ -288,23 +295,30 @@ function Diary() {
     }
 
     const addSet = async (exercise_id) => {
+        if (isAddingSet) return; // Evita doble clic
+        setIsAddingSet(true); // Activa el spinner y deshabilita el botón
+
         const newSet = await createSet(exercise_id);
-        const response = await fetch(
-            `${process.env.REACT_APP_SERVER_URL}/sets`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newSet),
+        try {
+            const response = await fetch(
+                `${process.env.REACT_APP_SERVER_URL}/sets`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newSet),
+                }
+            );
+
+            if (response.ok) {
+                const addedSet = await response.json();
+                setSets((prevSets) => [...prevSets, addedSet]); // Agregar a la UI
             }
-        );
-
-        if (response.ok) {
-            const addedSet = await response.json();
-
-            // Actualizar `sets` para incluir el nuevo set, provocando el re-render
-            setSets((prevSets) => [...prevSets, addedSet]);
+        } catch (error) {
+            console.error("Error adding set:", error);
+        } finally {
+            setIsAddingSet(false); // Reactiva el botón después de la petición
         }
     };
 
@@ -424,22 +438,29 @@ function Diary() {
     // CARDIO INTERVALS
 
     const addInterval = async (exercise_id) => {
-        const newInterval = await createInterval(exercise_id);
-        const response = await fetch(
-            `${process.env.REACT_APP_SERVER_URL}/intervals`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newInterval),
-            }
-        );
+        if (isAddingInterval) return; // Evita clics dobles
 
-        if (response.ok) {
-            const addedInterval = await response.json();
-            // Actualizar `intervals` para incluir el nuevo interval, provocando el re-render
-            setIntervals((prevIntervals) => [...prevIntervals, addedInterval]);
+        setIsAddingInterval(true); // Deshabilitar botón y mostrar spinner
+
+        try {
+            const newInterval = await createInterval(exercise_id);
+            const response = await fetch(
+                `${process.env.REACT_APP_SERVER_URL}/intervals`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(newInterval),
+                }
+            );
+
+            if (response.ok) {
+                const addedInterval = await response.json();
+                setIntervals((prev) => [...prev, addedInterval]);
+            }
+        } catch (error) {
+            console.error("Error al añadir intervalo:", error);
+        } finally {
+            setIsAddingInterval(false); // Reactivar botón
         }
     };
 
@@ -577,6 +598,9 @@ function Diary() {
     };
 
     const handleDeleteExercise = async (exerciseId) => {
+        if (deletingExerciseId) return; // Evita múltiples clics
+        setDeletingExerciseId(exerciseId);
+
         let exerciseToDelete = exercises.find(
             (exercise) => exercise.id === exerciseId
         );
@@ -625,6 +649,8 @@ function Diary() {
             }
         } catch (error) {
             console.error("Error deleting exercise:", error);
+        } finally {
+            setDeletingExerciseId(null);
         }
     };
 
@@ -645,6 +671,9 @@ function Diary() {
     // };
 
     const handleDeleteSet = async (setId) => {
+        if (deletingSetId) return;
+        setDeletingSetId(setId);
+
         const setToDelete = sets.find((set) => set.id === setId);
 
         try {
@@ -710,10 +739,15 @@ function Diary() {
                 "Error updating lastValues for next exercise by deleting set:",
                 error
             );
+        } finally {
+            setDeletingSetId(null);
         }
     };
 
     const handleDeleteInterval = async (intervalId) => {
+        if (deletingIntervalId) return;
+        setDeletingIntervalId(intervalId);
+
         const intervalToDelete = intervals.find(
             (interval) => interval.id === intervalId
         );
@@ -783,6 +817,8 @@ function Diary() {
                 "Error updating lastValues for next exercise by deleting interval:",
                 error
             );
+        } finally {
+            setDeletingIntervalId(null);
         }
     };
 
@@ -957,8 +993,17 @@ function Diary() {
                                                 )
                                             }
                                             className="bg-red-700 text-white p-2 rounded"
+                                            disabled={
+                                                deletingExerciseId ===
+                                                exercise.id
+                                            }
                                         >
-                                            <MdDeleteForever />
+                                            {deletingExerciseId ===
+                                            exercise.id ? (
+                                                <FaSpinner className="animate-spin text-white text-xl" />
+                                            ) : (
+                                                <MdDeleteForever />
+                                            )}
                                         </button>
                                     )}
                                 </div>
@@ -1096,8 +1141,17 @@ function Diary() {
                                                                         )
                                                                     }
                                                                     className="bg-red-700 text-white p-2 rounded"
+                                                                    disabled={
+                                                                        deletingSetId ===
+                                                                        set.id
+                                                                    }
                                                                 >
-                                                                    <MdDeleteForever />
+                                                                    {deletingSetId ===
+                                                                    set.id ? (
+                                                                        <FaSpinner className="animate-spin text-white text-xl" />
+                                                                    ) : (
+                                                                        <MdDeleteForever />
+                                                                    )}
                                                                 </button>
                                                             </td>
                                                         )}
@@ -1112,8 +1166,13 @@ function Diary() {
                                         className="text-left text-white px-4 py-1 rounded-3xl mt-4"
                                         style={{ backgroundColor: "#890000" }}
                                         onClick={() => addSet(exercise.id)}
+                                        disabled={isAddingSet} // Deshabilita el botón mientras se procesa
                                     >
-                                        + Agregar Set
+                                        {isAddingSet ? (
+                                            <FaSpinner className="animate-spin text-white text-lg" />
+                                        ) : (
+                                            "+ Agregar Set"
+                                        )}
                                     </button>
                                 </div>
                             </div>
@@ -1151,8 +1210,17 @@ function Diary() {
                                                 )
                                             }
                                             className="bg-red-700 text-white p-2 rounded"
+                                            disabled={
+                                                deletingExerciseId ===
+                                                exercise.id
+                                            }
                                         >
-                                            <MdDeleteForever />
+                                            {deletingExerciseId ===
+                                            exercise.id ? (
+                                                <FaSpinner className="animate-spin text-white text-xl" />
+                                            ) : (
+                                                <MdDeleteForever />
+                                            )}
                                         </button>
                                     )}
                                 </div>
@@ -1261,8 +1329,17 @@ function Diary() {
                                                                         )
                                                                     }
                                                                     className="bg-red-700 text-white p-2 rounded"
+                                                                    disabled={
+                                                                        deletingIntervalId ===
+                                                                        interval.id
+                                                                    }
                                                                 >
-                                                                    <MdDeleteForever />
+                                                                    {deletingIntervalId ===
+                                                                    interval.id ? (
+                                                                        <FaSpinner className="animate-spin text-white text-xl" />
+                                                                    ) : (
+                                                                        <MdDeleteForever />
+                                                                    )}
                                                                 </button>
                                                             </td>
                                                         )}
@@ -1277,8 +1354,13 @@ function Diary() {
                                         className="text-left text-white px-4 py-1 rounded-3xl mt-4"
                                         style={{ backgroundColor: "#890000" }}
                                         onClick={() => addInterval(exercise.id)}
+                                        disabled={isAddingInterval}
                                     >
-                                        + Agregar Intervalo
+                                        {isAddingInterval ? (
+                                            <FaSpinner className="animate-spin text-white text-2xl" />
+                                        ) : (
+                                            "+ Agregar Intervalo"
+                                        )}
                                     </button>
                                 </div>
                             </div>
